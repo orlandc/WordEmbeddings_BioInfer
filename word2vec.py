@@ -22,8 +22,7 @@ for i, f in enumerate(files):
     archivo = open(f, "r")
     fl = archivo.readlines()
     for x in fl:
-        #tokenizer = nltk.data.load('tokenizers/punkt/spanish.pickle')
-        tokens = nltk.word_tokenize(x)#.decode("utf-8"))
+        tokens = nltk.word_tokenize(x)
         sentences.append(tokens)
         for word in tokens:
             if word not in diccionario:
