@@ -28,9 +28,14 @@ for i, f in enumerate(files):
 #sentences = list(itertools.islice(Text8Corpus('text8'),None))
 
 corpus = Corpus()
-corpus.fit(sentences, window=10)
+corpus.fit(sentences, window=5)
 
-glove = Glove(no_components=100, learning_rate=0.05)
-glove.fit(corpus.matrix, epochs=30, no_threads=4, verbose=True)
-glove.add_dictionary(corpus.dictionary)
-glove.save('glove.model')
+num_components = [20, 50, 100] 
+
+for p in num_features:
+        glove = Glove(no_components=100, learning_rate=0.05)
+        glove.fit(corpus.matrix, epochs=30, no_threads=4, verbose=True)
+        glove.add_dictionary(corpus.dictionary)
+        glove.save('model/glove_model_bioinfer_' + str(p) +  '_.txt')
+
+        del glove
