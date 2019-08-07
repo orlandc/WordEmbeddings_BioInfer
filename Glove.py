@@ -25,17 +25,22 @@ for i, f in enumerate(files):
         tokens = nltk.word_tokenize(x)
         sentences.append(tokens)
 
-#sentences = list(itertools.islice(Text8Corpus('text8'),None))
-
 corpus = Corpus()
 corpus.fit(sentences, window=5)
 
-num_components = [20, 50, 100] 
+num_components = [20, 50, 100]
+no_threads = multiprocessing.cpu_count()
 
-for p in num_features:
-        glove = Glove(no_components=100, learning_rate=0.05)
-        glove.fit(corpus.matrix, epochs=30, no_threads=4, verbose=True)
-        glove.add_dictionary(corpus.dictionary)
-        glove.save('model/glove_model_bioinfer_' + str(p) +  '_.txt')
-
-        del glove
+for p in num_components:
+    glove = Glove(no_components=p, learning_rate=0.05)
+    glove.fit(corpus.matrix, epochs=30, no_threads=no_threads, verbose=True)
+    glove.add_dictionary(corpus.dictionary)
+    #glove.save('model/glove_model_bioinfer_' + str(p) +  '.bin')
+    #print(dir(glove))
+    with open('model/glove_model_bioinfer_' + str(p) +  '.txt', "w") as txt_file:
+        for t, k in enumerate(glove.word_vectors):
+            for word, key in glove.dictionary.items():
+                if (t == key):
+                    txt_file.write(word + " " + " ".join(str(elem) for elem in k) + "\n")
+                    break
+    del glove

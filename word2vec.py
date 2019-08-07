@@ -31,7 +31,7 @@ for i, f in enumerate(files):
                 diccionario[word] += 1
 
 print ("numero de oraciones presentes en el corpus " + str(len(sentences)))
-print ("numero de palabras únicas " + str(len(diccionario)))
+print ("numero de palabras unicas " + str(len(diccionario)))
 
 
 num_features = [20, 50, 100]              #Dimensionality of the resulting word vectors
@@ -50,6 +50,6 @@ for p in num_features:
         min_count=min_word_count, 
         window=context_size)
 
-    word2vec_model.wv.save_word2vec_format('model/word2vec_model_bioinfer_' + str(p) +  '_.txt', binary=False)
+    word2vec_model.wv.save_word2vec_format('model/word2vec_model_bioinfer_' + str(p) +  '.txt', binary=False)
 
     del word2vec_model
